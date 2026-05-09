@@ -171,42 +171,42 @@ export default function Index() {
             {PRICING_PLANS.map(plan => (
               <div
                 key={plan.id}
-                className={plan.featured ? 'rounded-xl p-7 flex flex-col relative md:scale-[1.03]' : 'card-base p-7 flex flex-col relative'}
-                style={plan.featured ? {
+                className={plan.popular ? 'rounded-xl p-7 flex flex-col relative md:scale-[1.03]' : 'card-base p-7 flex flex-col relative'}
+                style={plan.popular ? {
                   background: 'linear-gradient(135deg, #4f7ef8, #7c55f0)',
                   borderRadius: 16,
                   boxShadow: '0 0 60px -12px rgba(79,126,248,0.4)',
                 } : {}}
               >
-                {plan.featured && (
+                {plan.popular && (
                   <span className="absolute -top-3 left-6 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--accent)] text-black">
                     Most Popular
                   </span>
                 )}
-                <p className="label-caps mb-2" style={plan.featured ? { color: 'rgba(255,255,255,0.55)' } : {}}>
+                <p className="label-caps mb-2" style={plan.popular ? { color: 'rgba(255,255,255,0.55)' } : {}}>
                   {plan.name}
                 </p>
-                <p className="text-sm mb-4" style={plan.featured ? { color: 'rgba(255,255,255,0.7)' } : {}}>
+                <p className="text-sm mb-4" style={plan.popular ? { color: 'rgba(255,255,255,0.7)' } : {}}>
                   {plan.description}
                 </p>
                 <div className="flex items-baseline gap-1.5 mb-6">
-                  <span className="font-display text-[44px] font-extrabold leading-none" style={{ color: plan.featured ? '#fff' : 'var(--text)' }}>
+                  <span className="font-display text-[44px] font-extrabold leading-none" style={{ color: plan.popular ? '#fff' : 'var(--text)' }}>
                     {plan.price}
                   </span>
-                  <span className="text-sm" style={{ color: plan.featured ? 'rgba(255,255,255,0.55)' : 'var(--text-2)' }}>
+                  <span className="text-sm" style={{ color: plan.popular ? 'rgba(255,255,255,0.55)' : 'var(--text-2)' }}>
                     {plan.period}
                   </span>
                 </div>
                 <ul className="flex-1 space-y-2.5 mb-7">
                   {plan.features.map(f => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: plan.featured ? 'rgba(255,255,255,0.85)' : 'var(--text-2)' }}>
-                      <Check size={14} className="mt-0.5 flex-shrink-0" style={{ color: plan.featured ? '#fff' : 'var(--accent)' }} />
+                    <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: plan.popular ? 'rgba(255,255,255,0.85)' : 'var(--text-2)' }}>
+                      <Check size={14} className="mt-0.5 flex-shrink-0" style={{ color: plan.popular ? '#fff' : 'var(--accent)' }} />
                       {f}
                     </li>
                   ))}
                 </ul>
                 <button
-                  className={`w-full py-2.5 rounded-xl font-semibold text-sm transition-all ${plan.featured ? 'bg-white/15 text-white border border-white/25 hover:bg-white/20' : 'bg-transparent border border-[var(--border)] text-[var(--text)] hover:border-[var(--border-hover)] hover:bg-[var(--primary-dim)]'}`}
+                  className={`w-full py-2.5 rounded-xl font-semibold text-sm transition-all ${plan.popular ? 'bg-white/15 text-white border border-white/25 hover:bg-white/20' : 'bg-transparent border border-[var(--border)] text-[var(--text)] hover:border-[var(--border-hover)] hover:bg-[var(--primary-dim)]'}`}
                   onClick={() => handlePricingClick(plan)}
                   disabled={payingPlan === plan.id && loading}
                 >

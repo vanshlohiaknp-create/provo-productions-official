@@ -506,6 +506,8 @@ export function CreateChallenge() {
       id: 'plan_challenge_post',
       name: 'Challenge Posting Fee',
       price: '₹5,000',
+      period: 'one-time',
+      description: 'Verify your challenge before it goes live',
       razorpayAmount: 500000,
       features: [],
       popular: false

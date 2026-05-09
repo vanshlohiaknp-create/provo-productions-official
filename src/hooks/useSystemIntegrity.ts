@@ -5,7 +5,7 @@ export function useSystemIntegrity() {
   useEffect(() => {
     // Run silently in the background
     const runChecks = async () => {
-      // 1. (Razorpay Check Removed — Using QR Verification Modal)
+      // 1. (Payment check now handled through Provo Secure Verification QR modal)
 
       // 2. Check Guardian Gate Threshold
       if (PASS_SCORE !== 14) {

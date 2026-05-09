@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, CheckCircle } from 'lucide-react'
+import type { PricingPlan } from '@/types'
 
 const GOLD = '#D4AF37'
 
@@ -9,9 +10,10 @@ interface Props {
   onClose: () => void
   onSubmit: (txnRef: string) => void
   loading: boolean
+  selectedPlan?: PricingPlan | null
 }
 
-export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, loading }: Props) {
+export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, loading, selectedPlan }: Props) {
   const [txnRef, setTxnRef] = useState('')
 
   if (!isOpen) return null
@@ -26,7 +28,7 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="relative w-full max-w-sm rounded-2xl p-6 text-center shadow-[0_0_40px_rgba(212,175,55,0.3)] z-10"
+            className="relative w-full max-w-md rounded-2xl p-6 text-center shadow-[0_0_40px_rgba(212,175,55,0.3)] z-10"
             style={{ background: '#0a0a0a', border: `1px solid ${GOLD}` }}
           >
             <button onClick={onClose} disabled={loading} className="absolute right-4 top-4 text-[rgba(255,255,255,0.5)] hover:text-white transition-colors">
@@ -34,10 +36,20 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
             </button>
 
             <h3 className="font-display text-xl font-bold mb-2 text-white">Elite Verification</h3>
-            <p className="text-sm mb-5" style={{ color: GOLD }}>Founder-Direct Verification: Scan to finalize your Challenge.</p>
+            {selectedPlan ? (
+              <p className="text-sm mb-5" style={{ color: GOLD }}>
+                {selectedPlan.name} — {selectedPlan.price} {selectedPlan.period}
+              </p>
+            ) : (
+              <p className="text-sm mb-5" style={{ color: GOLD }}>
+                Founder-Direct Verification: Scan to finalize your Challenge.
+              </p>
+            )}
 
-            <div className="bg-white p-2 rounded-xl inline-block mb-5">
-              <img src="/paytm-qr.png" alt="Paytm QR Code" className="w-48 h-48 object-cover rounded-lg" />
+            <p className="text-sm mb-5" style={{ color: GOLD }}>Scan the QR to initiate secure payment. Click "Verify Payment" once complete for manual founder-side confirmation.</p>
+
+            <div className="bg-white p-2 rounded-3xl inline-flex items-center justify-center mb-5" style={{ border: `3px solid ${GOLD}` }}>
+              <img src="/payment-qr.svg" alt="Provo Payment UPI QR Code" className="w-full max-w-[280px] h-auto object-cover rounded-3xl" />
             </div>
 
             <div className="text-left mb-5">
@@ -64,7 +76,7 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
               {loading ? (
                 <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
               ) : (
-                <><CheckCircle size={16} /> Submit for Verification</>
+                <><CheckCircle size={16} /> Verify Payment</>
               )}
             </button>
           </motion.div>

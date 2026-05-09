@@ -17,7 +17,7 @@ const GOLD       = '#D4AF37'
 const GOLD_LIGHT = '#F5D77A'
 
 // ── Env (import.meta.env — NOT process.env, this is Vite) ─────────────────
-const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined
+const GEMINI_KEY = (import.meta.env.VITE_GEMINI_API_KEY as string | undefined)?.trim() || undefined
 const MODEL      = 'gemini-1.5-flash'
 
 const AI_MODE: 'direct' | 'offline' = GEMINI_KEY ? 'direct' : 'offline'
@@ -152,7 +152,7 @@ async function callAI(
     return "I'm in offline mode. Add VITE_GEMINI_API_KEY to your .env to enable the Elite Brain."
   }
 
-  const GEMINI_API = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`
+  const GEMINI_API = `https://generativelanguage.googleapis.com/v1/models/${MODEL}:generateContent?key=${GEMINI_KEY}`
 
   const contents = [
     ...history.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
@@ -165,22 +165,33 @@ async function callAI(
     generationConfig: { maxOutputTokens: 600 }
   })
 
-  const res = await fetch(GEMINI_API, {
-    method: 'POST',
-    signal,
-    headers: { 'Content-Type': 'application/json' },
-    body
-  })
+  let res: Response
+
+  try {
+    res = await fetch(GEMINI_API, {
+      method: 'POST',
+      signal,
+      headers: { 'Content-Type': 'application/json' },
+      body
+    })
+  } catch (error: unknown) {
+    if ((error as Error).name === 'AbortError') throw error
+    return "The Elite Brain could not connect. Check your internet or VITE_GEMINI_API_KEY and try again."
+  }
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    throw new Error((err as any)?.error?.message || `API error ${res.status}`)
+    const msg = (err as any)?.error?.message || `API error ${res.status}`
+    if (res.status === 404 || /model.*not found|not found|Invalid model/i.test(msg)) {
+      return "The Elite Brain is temporarily unavailable. Please verify VITE_GEMINI_API_KEY and try again shortly."
+    }
+    return `Gemini request failed: ${msg}`
   }
 
   const data = await res.json()
   const text = data?.candidates?.[0]?.content?.parts?.[0]?.text
 
-  if (!text?.trim()) throw new Error('API returned empty content block.')
+  if (!text?.trim()) return 'The Elite Brain returned no content. Please try again in a moment.'
 
   return text
 }

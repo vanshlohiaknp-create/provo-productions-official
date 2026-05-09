@@ -48,6 +48,11 @@ export function StudentDashboard() {
         <div className="flex items-start justify-between flex-wrap gap-4 mb-9">
           <div>
             <CinematicGreeting />
+            <div className="mt-3 inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold"
+              style={{ borderColor: 'rgba(212,175,55,0.35)', background: 'rgba(212,175,55,0.06)', color: '#ffffff' }}>
+              <span className="text-sm">⭐</span>
+              Founder's Badge
+            </div>
           </div>
           <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0} className="flex gap-2 flex-shrink-0 mt-1 flex-wrap">
             <Button variant="outline" size="sm" onClick={() => navigate('/profile')}>Profile</Button>
@@ -96,9 +101,9 @@ export function StudentDashboard() {
             <div>
               <p className="text-sm font-semibold" style={{ color: GOLD }}>Available Balance</p>
               <h2 className="font-display text-3xl font-bold mt-1">₹0.00</h2>
-              <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Minimum payout threshold: ₹1,000 via RazorpayX</p>
+              <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Payouts processed via manual UPI verification</p>
             </div>
-            <button onClick={() => alert('Simulating RazorpayX payout transfer... (Requires backend server API calls in production)')} className="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-[1.02]"
+            <button onClick={() => alert('Simulating manual UPI payout transfer... (Requires backend server API calls in production)')} className="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-[1.02]"
               style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD_LIGHT})`, color: '#000', fontWeight: 700 }}>
               Withdraw Payout
             </button>
@@ -352,7 +357,7 @@ export function AdminDashboard() {
     { label: 'User Management', desc: 'View, suspend, promote members', icon: Users, path: '/dashboard/admin' },
     { label: 'Certificates', desc: 'Issue, revoke, verify certs', icon: CheckCircle, path: '/dashboard/admin' },
     { label: 'Platform Analytics', desc: 'Growth, retention, conversion', icon: BarChart3, path: '/dashboard/admin' },
-    { label: 'Payments', desc: 'Razorpay transaction history', icon: TrendingUp, path: '/dashboard/admin' },
+    { label: 'Payments', desc: 'Provo Secure Verification history', icon: TrendingUp, path: '/dashboard/admin' },
     { label: 'System Settings', desc: 'Feature flags, config, limits', icon: Zap, path: '/dashboard/admin' },
   ]
 

@@ -14,9 +14,9 @@ export function CinematicGreeting() {
     <div className="mb-4 relative inline-block">
       {/* 1. Greeting Fades In First */}
       <motion.div
-        initial={{ opacity: 0, y: 5, filter: 'blur(4px)' }}
-        animate={{ opacity: 0.7, y: 0, filter: 'blur(0px)' }}
-        transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
+        initial={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        animate={{ opacity: 0.9, y: 0, filter: 'blur(0px)' }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
         className="text-xl md:text-2xl font-medium mb-1" 
         style={{ color: '#ffffff' }}
       >
@@ -25,9 +25,9 @@ export function CinematicGreeting() {
 
       {/* 2. The Gold Shimmer Name Reveal */}
       <motion.div
-        initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
+        initial={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        transition={{ delay: 0.8, duration: 1, ease: 'easeOut' }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
         className="text-5xl md:text-6xl font-display font-bold relative"
       >
         <span className="shimmer-text">
