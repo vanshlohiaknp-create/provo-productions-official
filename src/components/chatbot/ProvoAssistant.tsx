@@ -204,7 +204,10 @@ export default function ProvoAssistant() {
 
     try {
       const system = buildSystemPrompt(role, user?.full_name ?? 'User', studyPlan)
-      const text   = await callGemini(GEMINI_KEY, MODEL, system, [], prompt, abortRef.current.signal)
+      const historyWithSystem = [
+        { role: 'user' as const, content: `SYSTEM: ${system}` },
+      ]
+      const text   = await callGemini(GEMINI_KEY, MODEL, historyWithSystem, prompt, abortRef.current.signal)
       setMessages(prev => [...prev, { id: `sp-b-${Date.now()}`, role: 'bot', text, isStudyPlan: true }])
       setStudyPlan(null)
     } catch (err: unknown) {
@@ -248,7 +251,12 @@ export default function ProvoAssistant() {
         studyPlanActive ? studyPlan : null,
       )
 
-      const reply = await callGemini(GEMINI_KEY, MODEL, system, history, trimmed, abortRef.current.signal)
+      const historyWithSystem = [
+        { role: 'user' as const, content: `SYSTEM: ${system}` },
+        ...history,
+      ]
+
+      const reply = await callGemini(GEMINI_KEY, MODEL, historyWithSystem, trimmed, abortRef.current.signal)
       setMessages(prev => [...prev, { id: `b-${Date.now()}`, role: 'bot', text: reply }])
     } catch (err: unknown) {
       if ((err as Error).name === 'AbortError') return

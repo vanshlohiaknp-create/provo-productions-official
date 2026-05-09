@@ -49,11 +49,11 @@ provo/
 │   │   └── sampleData.ts        # Sample challenges + pricing plans
 │   │
 │   ├── lib/
-│   │   ├── razorpay.ts          # Razorpay integration (demo + live)
+│   │   ├── provo-secure-upi.ts          # Provo Secure UPI integration (demo + live)
 │   │   └── utils.ts             # Helpers
 │   │
 │   ├── hooks/
-│   │   └── useRazorpay.ts       # Payment hook
+│   │   └── useProvoSecureUPI.ts       # Payment hook
 │   │
 │   ├── components/
 │   │   ├── ui/index.tsx         # Button, Badge, Card, Input, EmptyState…

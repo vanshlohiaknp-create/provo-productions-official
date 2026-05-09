@@ -5,7 +5,6 @@ const DEFAULT_MAX_OUTPUT_TOKENS = 600
 export async function callGemini(
   apiKey: string | undefined,
   model: string,
-  systemPrompt: string,
   history: GeminiHistory[],
   userMsg: string,
   signal: AbortSignal,
@@ -17,7 +16,6 @@ export async function callGemini(
   const GEMINI_API = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`
 
   const contents = [
-    { role: 'user', parts: [{ text: `SYSTEM PROMPT: ${systemPrompt}` }] },
     ...history.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
     { role: 'user', parts: [{ text: userMsg }] },
   ]

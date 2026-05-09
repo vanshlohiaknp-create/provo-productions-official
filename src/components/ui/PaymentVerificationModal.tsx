@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, CheckCircle } from 'lucide-react'
-import paymentQR from '../assets/payment-qr.png'
+import paymentQR from '/payment-qr.svg'
 import type { PricingPlan } from '@/types'
 
 const GOLD = '#D4AF37'
@@ -10,11 +10,10 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   onSubmit: (txnRef: string) => void
-  loading: boolean
   selectedPlan?: PricingPlan | null
 }
 
-export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, loading, selectedPlan }: Props) {
+export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, selectedPlan }: Props) {
   const [txnRef, setTxnRef] = useState('')
 
   if (!isOpen) return null
@@ -49,7 +48,7 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
 
             <p className="text-sm mb-5" style={{ color: GOLD }}>Scan the QR to initiate secure payment. Click "Verify Payment" once complete for manual founder-side confirmation.</p>
 
-            <div className="mb-5" style={{ background: '#fff', padding: 24, borderRadius: 16, display: 'flex', justifyContent: 'center', border: `2px solid ${GOLD}` }}>
+            <div className="mb-5" style={{ background: '#fff', padding: 30, borderRadius: 16, display: 'flex', justifyContent: 'center' }}>
               <img src={paymentQR} alt="UPI QR" style={{ width: 280, height: 280, display: 'block' }} />
             </div>
 

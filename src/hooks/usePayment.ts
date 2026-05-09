@@ -96,7 +96,6 @@ export function usePayment() {
       isOpen: modalState.isOpen,
       onClose: closeQRModal,
       onSubmit: submitVerification,
-      loading: status === 'loading',
       selectedPlan: modalState.plan,
     }
   }

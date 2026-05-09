@@ -133,6 +133,7 @@ function AppRoutes() {
         {/* Public */}
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<GuestOnly><Auth mode="login" /></GuestOnly>} />
+        {/* Explicit signup route mapping for the central Auth flow */}
         <Route path="/signup" element={<GuestOnly><Auth mode="signup" /></GuestOnly>} />
         <Route path="/challenges" element={<Challenges />} />
         <Route path="/challenges/:id" element={<ChallengeDetail />} />
