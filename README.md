@@ -84,18 +84,15 @@ provo/
 
 ---
 
-## 💳 Razorpay Payment Integration
+## 💳 Provo Secure UPI Payment Integration
 
 ### Demo Mode (default)
 No real payment. Simulates a successful transaction.
 
 ### Live Mode
-1. Get test keys from [Razorpay Dashboard](https://dashboard.razorpay.com/)
-2. Add to `.env`:
-```env
-VITE_RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
-```
-3. In `src/hooks/useRazorpay.ts`, replace `demoPayment` with `initiateRazorpayPayment`
+1. Add your UPI payment QR and verification process to the hosted frontend and backend.
+2. The manual verification modal submits the UPI transaction reference for founder-side confirmation.
+3. Replace any demo payment logic with your production UPI verification flow in `src/hooks/usePayment.ts`.
 
 ---
 

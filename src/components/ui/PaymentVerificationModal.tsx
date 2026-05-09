@@ -48,8 +48,8 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
 
             <p className="text-sm mb-5" style={{ color: GOLD }}>Scan the QR to initiate secure payment. Click "Verify Payment" once complete for manual founder-side confirmation.</p>
 
-            <div className="bg-white p-2 rounded-3xl inline-flex items-center justify-center mb-5" style={{ border: `3px solid ${GOLD}` }}>
-              <img src="/payment-qr.svg" alt="Provo Payment UPI QR Code" className="w-full max-w-[280px] h-auto object-cover rounded-3xl" />
+            <div className="inline-flex items-center justify-center mb-5 rounded-[20px]" style={{ background: '#fff', padding: 24, borderRadius: 16, border: `2px solid ${GOLD}` }}>
+              <img src="/payment-qr.svg" alt="Provo Payment UPI QR Code" className="w-full max-w-[280px] h-auto object-cover rounded-[16px]" />
             </div>
 
             <div className="text-left mb-5">

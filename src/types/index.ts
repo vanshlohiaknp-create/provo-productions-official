@@ -119,7 +119,7 @@ export interface PricingPlan {
   period: string
   description: string
   features: string[]
-  razorpayAmount: number
+  paymentAmount: number
   popular: boolean
 }
 

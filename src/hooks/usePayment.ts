@@ -15,7 +15,7 @@ export function usePayment() {
   }>({ isOpen: false, plan: null, resolve: null })
 
   const checkout = useCallback(async (plan: PricingPlan): Promise<PaymentResult> => {
-    if (plan.razorpayAmount === 0) {
+    if (plan.paymentAmount === 0) {
       const res: PaymentResult = { status: 'success', planName: plan.name, message: 'Free plan activated!' }
       setResult(res)
       setStatus('success')

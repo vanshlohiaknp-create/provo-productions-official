@@ -17,7 +17,7 @@ export default function Index() {
 
   const handlePricingClick = async (plan: typeof PRICING_PLANS[0]) => {
     if (!isAuthenticated) { navigate('/signup'); return }
-    if (plan.razorpayAmount === 0) { navigate('/signup'); return }
+    if (plan.paymentAmount === 0) { navigate('/signup'); return }
     setPayingPlan(plan.id)
     await checkout(plan)
     setPayingPlan(null)
@@ -216,7 +216,7 @@ export default function Index() {
                       Processing…
                     </span>
                   ) : (
-                    plan.razorpayAmount === 0 ? 'Get Started' : `Upgrade to ${plan.name}`
+                    plan.paymentAmount === 0 ? 'Get Started' : `Upgrade to ${plan.name}`
                   )}
                 </button>
               </div>

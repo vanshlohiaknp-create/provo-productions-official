@@ -65,7 +65,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       'Standard support',
       'Company profile page',
     ],
-    razorpayAmount: 0,
+    paymentAmount: 0,
     popular: false,
   },
   {
@@ -81,7 +81,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       'Talent pool access',
       'Basic analytics',
     ],
-    razorpayAmount: 19900, // ₹199 in paise
+    paymentAmount: 19900, // ₹199 in paise
     popular: true,
   },
   {
@@ -97,7 +97,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       'Custom branding',
       'Dedicated success manager',
     ],
-    razorpayAmount: 49900, // ₹499 in paise
+    paymentAmount: 49900, // ₹499 in paise
     popular: false,
   },
 ]

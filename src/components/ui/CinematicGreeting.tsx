@@ -1,14 +1,10 @@
 import { motion } from 'framer-motion'
-import { getGreeting } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
 import './CinematicGreeting.css'
 
 export function CinematicGreeting() {
   const { user } = useAuth()
   const firstName = user?.full_name?.split(' ')[0] || 'Founder'
-  
-  const greeting = getGreeting()
-  const timeOfDay = greeting.replace('Good ', '').toLowerCase()
 
   return (
     <div className="mb-4 relative inline-block">
@@ -20,7 +16,7 @@ export function CinematicGreeting() {
         className="text-xl md:text-2xl font-medium mb-1" 
         style={{ color: '#ffffff' }}
       >
-        Good {timeOfDay},
+        Welcome back, {firstName}
       </motion.div>
 
       {/* 2. The Gold Shimmer Name Reveal */}

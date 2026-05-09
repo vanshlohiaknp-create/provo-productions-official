@@ -508,7 +508,7 @@ export function CreateChallenge() {
       price: '₹5,000',
       period: 'one-time',
       description: 'Verify your challenge before it goes live',
-      razorpayAmount: 500000,
+      paymentAmount: 500000,
       features: [],
       popular: false
     }
