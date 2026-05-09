@@ -1,0 +1,65 @@
+import { Link } from 'react-router-dom'
+
+const GOLD = '#D4AF37'
+
+export default function Footer() {
+  return (
+    <footer style={{ borderTop: '1px solid rgba(212,175,55,0.08)', background: 'rgba(255,255,255,0.01)' }} className="pt-12 pb-7">
+      <div className="page-container">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-8 h-8 rounded-[10px] flex items-center justify-center font-display font-bold text-black text-sm"
+                style={{ background: `linear-gradient(135deg, ${GOLD}, #F5D77A)` }}>
+                P
+              </div>
+              <span className="font-display text-[17px] font-bold text-white">Provo</span>
+              <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.3em', color: GOLD, opacity: 0.5, marginLeft: 4 }}>VANSH</span>
+            </div>
+            <p className="text-sm leading-relaxed max-w-sm mb-5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              A proof-based hiring ecosystem where students prove skills through real work and unlock opportunities.
+            </p>
+            <p className="font-display italic text-sm" style={{ color: 'rgba(212,175,55,0.5)' }}>
+              "If I solve more, I grow more."
+            </p>
+            <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(212,175,55,0.06)' }}>
+              <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Founder</p>
+              <p className="text-sm font-semibold text-white">Vansh Lohia</p>
+              <a href="mailto:vansh.lohiaknp@gmail.com" className="text-sm hover:underline transition-colors" style={{ color: GOLD }}>
+                vansh.lohiaknp@gmail.com
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-semibold mb-4 text-white">Platform</h4>
+            {[
+              { to: '/challenges', label: 'Challenges' },
+              { to: '/mcq', label: 'MCQ Mode' },
+              { to: '/leaderboard', label: 'Leaderboard' },
+              { to: '/opportunities', label: 'Opportunities' },
+              { to: '/#pricing', label: 'Pricing' },
+              { to: '/signup', label: 'Sign Up Free' },
+            ].map(link => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="block text-sm transition-colors mb-2.5"
+                style={{ color: 'rgba(255,255,255,0.35)' }}
+                onMouseEnter={e => (e.target as HTMLElement).style.color = GOLD}
+                onMouseLeave={e => (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.35)'}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="pt-5 flex flex-col sm:flex-row justify-between gap-3" style={{ borderTop: '1px solid rgba(212,175,55,0.06)' }}>
+          <span className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>© 2025 Provo. All rights reserved.</span>
+          <span className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            Built by VL Ventures · Powered by Proof
+          </span>
+        </div>
+      </div>
+    </footer>
+  )
+}

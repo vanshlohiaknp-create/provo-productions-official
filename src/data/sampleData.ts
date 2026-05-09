@@ -1,0 +1,101 @@
+import type { Challenge, PricingPlan } from '@/types'
+
+// Sample challenges — clearly marked as demo
+export const SAMPLE_CHALLENGES: Challenge[] = [
+  {
+    id: 'sample-1',
+    title: 'Build a Go-To-Market Strategy for a D2C Brand',
+    company_name: 'Demo Company',
+    description: 'Create a comprehensive GTM strategy for a direct-to-consumer brand entering Tier-2 cities in India. Include target audience definition, positioning, channel strategy, and a 90-day execution plan with KPIs.',
+    reward: 'Verified Certificate',
+    deadline: 'Open',
+    difficulty: 'Medium',
+    tags: ['Marketing', 'Strategy', 'GTM'],
+    status: 'active',
+    applicant_count: 0,
+    view_count: 0,
+    created_by: 'demo',
+    created_at: new Date().toISOString(),
+    is_sample: true,
+  },
+  {
+    id: 'sample-2',
+    title: 'Analyse the Business Model of a Successful EdTech Startup',
+    company_name: 'Demo Company',
+    description: "Pick any successful EdTech company (e.g. Byju's, Unacademy, or Coursera) and produce a detailed analysis of their business model, revenue streams, growth strategy, market positioning, and key success factors.",
+    reward: 'Verified Certificate',
+    deadline: 'Open',
+    difficulty: 'Easy',
+    tags: ['Research', 'Business', 'Analysis'],
+    status: 'active',
+    applicant_count: 0,
+    view_count: 0,
+    created_by: 'demo',
+    created_at: new Date().toISOString(),
+    is_sample: true,
+  },
+  {
+    id: 'sample-3',
+    title: 'Customer Retention Strategy for a SaaS Product',
+    company_name: 'Demo Company',
+    description: 'Design a data-driven customer retention strategy for a B2B SaaS company facing 22% monthly churn. Include cohort analysis approach, specific retention tactics, tooling recommendations, and expected outcome metrics.',
+    reward: 'Verified Certificate',
+    deadline: 'Open',
+    difficulty: 'Hard',
+    tags: ['Strategy', 'Analytics', 'SaaS'],
+    status: 'active',
+    applicant_count: 0,
+    view_count: 0,
+    created_by: 'demo',
+    created_at: new Date().toISOString(),
+    is_sample: true,
+  },
+]
+
+export const PRICING_PLANS: PricingPlan[] = [
+  {
+    id: 'free',
+    name: 'Free',
+    price: '₹0',
+    period: 'forever',
+    description: 'Perfect for getting started',
+    features: [
+      '3 challenge posts/month',
+      'Basic applicant view',
+      'Standard support',
+      'Company profile page',
+    ],
+    razorpayAmount: 0,
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    price: '₹199',
+    period: '/month',
+    description: 'For growing organisations',
+    features: [
+      '20 challenges/month',
+      'Featured listings',
+      'Priority support',
+      'Talent pool access',
+      'Basic analytics',
+    ],
+    featured: true,
+    razorpayAmount: 19900, // ₹199 in paise
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: '₹499',
+    period: '/month',
+    description: 'Enterprise-grade features',
+    features: [
+      'Unlimited challenges',
+      'AI student matching',
+      'Advanced analytics dashboard',
+      'Custom branding',
+      'Dedicated success manager',
+    ],
+    razorpayAmount: 49900, // ₹499 in paise
+  },
+]

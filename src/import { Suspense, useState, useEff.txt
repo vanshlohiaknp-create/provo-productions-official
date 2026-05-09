@@ -1,0 +1,148 @@
+import { Suspense, useState, useEffect, useCallback } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AuthProvider, useAuth } from '@/contexts/AuthContext'
+import { PageLoader } from '@/components/ui'
+
+// Pages
+import Index from '@/pages/Index'
+import Welcome from '@/pages/Welcome'
+import { Login, Signup } from '@/pages/Auth'
+import { Challenges, ChallengeDetail, SubmitSolution, CreateChallenge } from '@/pages/Challenges'
+import { MCQSelect, MCQTest, MCQResults } from '@/pages/MCQ'
+import { StudentDashboard, BusinessDashboard, FacultyDashboard, AdminDashboard } from '@/pages/Dashboards'
+import { Leaderboard, Opportunities, ProofProfile, CertificateVerify, Notifications, NotFound } from '@/pages/Pages'
+
+// ===== HOLY GRAIL LOADING SCREEN =====
+function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+  const [fadeOut, setFadeOut] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeOut(true)
+      setTimeout(onComplete, 800)
+    }, 2200)
+    return () => clearTimeout(timer)
+  }, [onComplete])
+
+  return (
+    <div className={`loading-screen ${fadeOut ? 'fade-out' : ''}`}>
+      <div className="logo-3d">P</div>
+      <div className="gold-progress-track">
+        <div className="gold-progress-fill" />
+      </div>
+      <p style={{
+        marginTop: 20,
+        fontSize: 11,
+        letterSpacing: '0.25em',
+        textTransform: 'uppercase',
+        color: 'rgba(212,175,55,0.4)',
+        fontFamily: 'Inter, system-ui, sans-serif',
+        fontWeight: 500,
+      }}>
+        PROVO
+      </p>
+    </div>
+  )
+}
+
+// ===== GOLDEN CURSOR TRAIL =====
+function GoldenCursorTrail() {
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      const dot = document.createElement('div')
+      dot.className = 'cursor-trail'
+      dot.style.left = `${e.clientX}px`
+      dot.style.top = `${e.clientY}px`
+      document.body.appendChild(dot)
+      setTimeout(() => dot.remove(), 600)
+    }
+
+    let throttle = false
+    const throttledMove = (e: MouseEvent) => {
+      if (throttle) return
+      throttle = true
+      handleMove(e)
+      setTimeout(() => { throttle = false }, 40)
+    }
+
+    window.addEventListener('mousemove', throttledMove)
+    return () => window.removeEventListener('mousemove', throttledMove)
+  }, [])
+
+  return null
+}
+
+// ===== PROTECTED ROUTE =====
+function RequireAuth({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
+  const { isAuthenticated, user, loading } = useAuth()
+  const location = useLocation()
+
+  if (loading) return <PageLoader />
+  if (!isAuthenticated) return <Navigate to="/login" state={{ from: location }} replace />
+  if (roles && user && !roles.includes(user.role)) return <Navigate to="/welcome" replace />
+  return <>{children}</>
+}
+
+// ===== GUEST ONLY =====
+function GuestOnly({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated } = useAuth()
+  if (isAuthenticated) return <Navigate to="/welcome" replace />
+  return <>{children}</>
+}
+
+// ===== APP ROUTES =====
+function AppRoutes() {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <div className="cinematic-enter">
+        <Routes>
+          {/* Public */}
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<GuestOnly><Login /></GuestOnly>} />
+          <Route path="/signup" element={<GuestOnly><Signup /></GuestOnly>} />
+          <Route path="/challenges" element={<Challenges />} />
+          <Route path="/challenges/:id" element={<ChallengeDetail />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/opportunities" element={<Opportunities />} />
+          <Route path="/certificate/:code" element={<CertificateVerify />} />
+
+          {/* Protected */}
+          <Route path="/welcome" element={<RequireAuth><Welcome /></RequireAuth>} />
+          <Route path="/challenges/:id/submit" element={<RequireAuth roles={['student']}><SubmitSolution /></RequireAuth>} />
+          <Route path="/challenges/create" element={<RequireAuth roles={['business','faculty','admin']}><CreateChallenge /></RequireAuth>} />
+          <Route path="/profile" element={<RequireAuth><ProofProfile /></RequireAuth>} />
+          <Route path="/notifications" element={<RequireAuth><Notifications /></RequireAuth>} />
+
+          {/* MCQ */}
+          <Route path="/mcq" element={<MCQSelect />} />
+          <Route path="/mcq/test" element={<MCQTest />} />
+          <Route path="/mcq/results" element={<MCQResults />} />
+
+          {/* Dashboards */}
+          <Route path="/dashboard/student" element={<RequireAuth roles={['student']}><StudentDashboard /></RequireAuth>} />
+          <Route path="/dashboard/business" element={<RequireAuth roles={['business']}><BusinessDashboard /></RequireAuth>} />
+          <Route path="/dashboard/faculty" element={<RequireAuth roles={['faculty']}><FacultyDashboard /></RequireAuth>} />
+          <Route path="/dashboard/admin" element={<RequireAuth roles={['admin']}><AdminDashboard /></RequireAuth>} />
+
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </Suspense>
+  )
+}
+
+export default function App() {
+  const [loaded, setLoaded] = useState(false)
+  const handleLoadComplete = useCallback(() => setLoaded(true), [])
+
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        {!loaded && <LoadingScreen onComplete={handleLoadComplete} />}
+        <GoldenCursorTrail />
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
+  )
+}
