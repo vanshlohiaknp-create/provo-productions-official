@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, CheckCircle } from 'lucide-react'
+import paymentQR from '../assets/payment-qr.png'
 import type { PricingPlan } from '@/types'
 
 const GOLD = '#D4AF37'
@@ -22,7 +23,7 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={!loading ? onClose : undefined} />
+          <div className="absolute inset-0 bg-black/80" onClick={onClose} />
           
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -31,7 +32,7 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
             className="relative w-full max-w-md rounded-2xl p-6 text-center shadow-[0_0_40px_rgba(212,175,55,0.3)] z-10"
             style={{ background: '#0a0a0a', border: `1px solid ${GOLD}` }}
           >
-            <button onClick={onClose} disabled={loading} className="absolute right-4 top-4 text-[rgba(255,255,255,0.5)] hover:text-white transition-colors">
+            <button onClick={onClose} className="absolute right-4 top-4 text-[rgba(255,255,255,0.5)] hover:text-white transition-colors">
               <X size={18} />
             </button>
 
@@ -48,8 +49,8 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
 
             <p className="text-sm mb-5" style={{ color: GOLD }}>Scan the QR to initiate secure payment. Click "Verify Payment" once complete for manual founder-side confirmation.</p>
 
-            <div className="inline-flex items-center justify-center mb-5 rounded-[20px]" style={{ background: '#fff', padding: 24, borderRadius: 16, border: `2px solid ${GOLD}` }}>
-              <img src="/payment-qr.svg" alt="Provo Payment UPI QR Code" className="w-full max-w-[280px] h-auto object-cover rounded-[16px]" />
+            <div className="mb-5" style={{ background: '#fff', padding: 24, borderRadius: 16, display: 'flex', justifyContent: 'center', border: `2px solid ${GOLD}` }}>
+              <img src={paymentQR} alt="UPI QR" style={{ width: 280, height: 280, display: 'block' }} />
             </div>
 
             <div className="text-left mb-5">
@@ -69,15 +70,11 @@ export default function PaymentVerificationModal({ isOpen, onClose, onSubmit, lo
 
             <button
               onClick={() => onSubmit(txnRef)}
-              disabled={loading || !txnRef.trim()}
+              disabled={!txnRef.trim()}
               className="w-full py-3 rounded-xl font-bold text-sm text-black flex items-center justify-center gap-2 disabled:opacity-50 transition-transform active:scale-95"
               style={{ background: `linear-gradient(135deg, ${GOLD}, #F5D77A)` }}
             >
-              {loading ? (
-                <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <><CheckCircle size={16} /> Verify Payment</>
-              )}
+              <><CheckCircle size={16} /> Verify Payment</>
             </button>
           </motion.div>
         </div>

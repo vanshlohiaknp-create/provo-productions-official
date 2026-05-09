@@ -8,7 +8,7 @@ import { startGuardianHeartbeat } from '@/lib/guardian'
 // Pages
 import Index from '@/pages/Index'
 import Welcome from '@/pages/Welcome'
-import { Login, Signup } from '@/pages/Auth'
+import Auth from '@/pages/Auth'
 import { Challenges, ChallengeDetail, SubmitSolution, CreateChallenge } from '@/pages/Challenges'
 import { MCQSelect, MCQTest, MCQResults } from '@/pages/MCQ'
 import { StudentDashboard, BusinessDashboard, FacultyDashboard, AdminDashboard } from '@/pages/Dashboards'
@@ -132,8 +132,8 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Index />} />
-        <Route path="/login" element={<GuestOnly><Login /></GuestOnly>} />
-        <Route path="/signup" element={<GuestOnly><Signup /></GuestOnly>} />
+        <Route path="/login" element={<GuestOnly><Auth mode="login" /></GuestOnly>} />
+        <Route path="/signup" element={<GuestOnly><Auth mode="signup" /></GuestOnly>} />
         <Route path="/challenges" element={<Challenges />} />
         <Route path="/challenges/:id" element={<ChallengeDetail />} />
         <Route path="/leaderboard" element={<Leaderboard />} />

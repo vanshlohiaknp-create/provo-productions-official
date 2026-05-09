@@ -4,7 +4,7 @@ import './CinematicGreeting.css'
 
 export function CinematicGreeting() {
   const { user } = useAuth()
-  const firstName = user?.full_name?.split(' ')[0] || 'Founder'
+  const firstName = user?.user_metadata?.full_name?.split(' ')[0] || 'Founder'
 
   return (
     <div className="mb-4 relative inline-block">

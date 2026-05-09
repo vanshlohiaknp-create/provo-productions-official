@@ -12,6 +12,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { X, Send, Sparkles, AlertTriangle, BookOpen, Brain, Target, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
+import { callGemini } from '@/lib/gemini'
 
 const GOLD       = '#D4AF37'
 const GOLD_LIGHT = '#F5D77A'
@@ -142,59 +143,6 @@ function OfflineBanner() {
 }
 
 // ── API caller ─────────────────────────────────────────────────────────────
-async function callAI(
-  systemPrompt: string,
-  history:      { role: 'user' | 'assistant'; content: string }[],
-  userMsg:      string,
-  signal:       AbortSignal,
-): Promise<string> {
-  if (!GEMINI_KEY) {
-    return "I'm in offline mode. Add VITE_GEMINI_API_KEY to your .env to enable the Elite Brain."
-  }
-
-  const GEMINI_API = `https://generativelanguage.googleapis.com/v1/models/${MODEL}:generateContent?key=${GEMINI_KEY}`
-
-  const contents = [
-    ...history.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
-    { role: 'user', parts: [{ text: userMsg }] }
-  ]
-
-  const body = JSON.stringify({
-    systemInstruction: { parts: [{ text: systemPrompt }] },
-    contents,
-    generationConfig: { maxOutputTokens: 600 }
-  })
-
-  let res: Response
-
-  try {
-    res = await fetch(GEMINI_API, {
-      method: 'POST',
-      signal,
-      headers: { 'Content-Type': 'application/json' },
-      body
-    })
-  } catch (error: unknown) {
-    if ((error as Error).name === 'AbortError') throw error
-    return "The Elite Brain could not connect. Check your internet or VITE_GEMINI_API_KEY and try again."
-  }
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}))
-    const msg = (err as any)?.error?.message || `API error ${res.status}`
-    if (res.status === 404 || /model.*not found|not found|Invalid model/i.test(msg)) {
-      return "The Elite Brain is temporarily unavailable. Please verify VITE_GEMINI_API_KEY and try again shortly."
-    }
-    return `Gemini request failed: ${msg}`
-  }
-
-  const data = await res.json()
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text
-
-  if (!text?.trim()) return 'The Elite Brain returned no content. Please try again in a moment.'
-
-  return text
-}
 
 // ── MAIN COMPONENT ─────────────────────────────────────────────────────────
 export default function ProvoAssistant() {
@@ -256,7 +204,7 @@ export default function ProvoAssistant() {
 
     try {
       const system = buildSystemPrompt(role, user?.full_name ?? 'User', studyPlan)
-      const text   = await callAI(system, [], prompt, abortRef.current.signal)
+      const text   = await callGemini(GEMINI_KEY, MODEL, system, [], prompt, abortRef.current.signal)
       setMessages(prev => [...prev, { id: `sp-b-${Date.now()}`, role: 'bot', text, isStudyPlan: true }])
       setStudyPlan(null)
     } catch (err: unknown) {
@@ -300,7 +248,7 @@ export default function ProvoAssistant() {
         studyPlanActive ? studyPlan : null,
       )
 
-      const reply = await callAI(system, history, trimmed, abortRef.current.signal)
+      const reply = await callGemini(GEMINI_KEY, MODEL, system, history, trimmed, abortRef.current.signal)
       setMessages(prev => [...prev, { id: `b-${Date.now()}`, role: 'bot', text: reply }])
     } catch (err: unknown) {
       if ((err as Error).name === 'AbortError') return

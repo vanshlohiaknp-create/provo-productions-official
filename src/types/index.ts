@@ -15,6 +15,7 @@ export interface User {
   challenges_solved: number
   created_at: string
   tier?: string
+  user_metadata?: { full_name?: string }
 }
 
 // ===== AUTH =====

@@ -238,3 +238,9 @@ export function Signup() {
     </div>
   )
 }
+
+export type AuthMode = 'login' | 'signup'
+
+export default function Auth({ mode }: { mode: AuthMode }) {
+  return mode === 'login' ? <Login /> : <Signup />
+}
